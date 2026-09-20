@@ -1,0 +1,25 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: wallapop-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: sth_schema
+    volumes:
+      - wallapop_postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5436:5432"
+
+  wallapop:
+    image: wallapop:latest
+    container_name: wallapop
+    env_file:
+      - .env
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+
+volumes:
+  wallapop_postgres_data:
